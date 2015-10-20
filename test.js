@@ -1,10 +1,18 @@
-var messages = new Mongo.Collection("messages");
-
 if (Meteor.isClient) {
-	Meteor.subscribe('messages');
+
+	Meteor.startup(function () {
+		console.log('client start');
+		Meteor.subscribe('messages');
+		Meteor.call('file', function(err, result) { if(err) Session.set('file', 'error'); Session.set('file', result); });
+	});
+
+	Meteor.methods({
+		data: function() { console.log('data'); }
+	});
 
 	Template.body.helpers({
-		status: function() { return Meteor.status().status; }
+		status: function() { return Meteor.status().status; },
+		file: function() { return Session.get('file'); }
 	});
 
 	Template.messagesboard.helpers({
@@ -18,8 +26,8 @@ if (Meteor.isClient) {
   });
 
   Template.messagesinput.events({
-    'click button': function () {
-			var input = Template.instance().find('input');
+    'click button': function (event, template) {
+			var input = template.find('input');
 			Meteor.call('insert', input.value);
 			input.value = '';
     },
@@ -34,15 +42,11 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-		messages.remove({});
-		Meteor.publish('messages', function() { return messages.find({}, { sort: { timestamp: -1 }, limit: 5 }); });
-  });
 
 	Meteor.methods({
 		insert: function(text) {
 			messages.insert({ text: text, timestamp: new Date() });
-		}
-
+		},
+		file: function() { return Assets.getText('data.txt'); }
 	});
 }
