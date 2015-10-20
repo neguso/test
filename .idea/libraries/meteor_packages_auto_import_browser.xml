@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="meteor-packages-auto-import-browser" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/momentjs_moment/2.10.6/web.browser/packages/momentjs_moment.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/momentjs_moment/2.10.6/web.browser/packages/momentjs_moment.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
