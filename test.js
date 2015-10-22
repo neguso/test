@@ -1,9 +1,11 @@
 if (Meteor.isClient) {
 
+	var f = new ReactiveVar(null);
+
 	Meteor.startup(function () {
 		console.log('client start');
 		Meteor.subscribe('messages');
-		Meteor.call('file', function(err, result) { if(err) Session.set('file', 'error'); Session.set('file', result); });
+		Meteor.call('file', function(err, result) { if(err) f.set('error'); f.set(result); });
 	});
 
 	Meteor.methods({
@@ -12,7 +14,15 @@ if (Meteor.isClient) {
 
 	Template.body.helpers({
 		status: function() { return Meteor.status().status; },
-		file: function() { return Session.get('file'); }
+		file: function() { return f.get(); }
+	});
+
+	Template.body.onRendered(function() {
+		// Initialize collapse button
+		$(".button-collapse").sideNav();
+		// Initialize collapsible (uncomment the line below if you use the dropdown variation)
+		//$('.collapsible').collapsible();
+
 	});
 
 	Template.messagesboard.helpers({
