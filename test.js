@@ -6,6 +6,11 @@ if (Meteor.isClient) {
 		console.log('client start');
 		Meteor.subscribe('messages');
 		Meteor.call('file', function(err, result) { if(err) f.set('error'); f.set(result); });
+
+		Meteor.subscribe('Projects');
+		Meteor.subscribe('Tasks');
+
+		Session.setDefault('page', 0);
 	});
 
 	Meteor.methods({
@@ -49,6 +54,25 @@ if (Meteor.isClient) {
 			}
 		}
   });
+
+	Template.projects.helpers({
+		page: function(){ return Session.get('page'); },
+		projects: function() {
+			return Projects.find({}, { skip: 5 * Session.get('page'), limit: 5 });
+		}
+	});
+
+	Template.pages.helpers({
+		'pages': function(){
+			var ary = [], n = Projects.find({}).count() / 5;
+			for(var i = 0; i < n; i++)
+				ary.push({ page: i.toString(), active:  });
+			//return new ReactiveVar(ary);
+			return ary;
+		}
+	});
+
+
 }
 
 if (Meteor.isServer) {

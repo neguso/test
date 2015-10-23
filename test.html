@@ -10,7 +10,36 @@
 
 <template name="messagesinput">
 	<div class="row">
-		<div class="col-md-8"><input class="form-control" placeholder="enter message here..." /></div>
-		<div class="col-md-4"><button class="btn btn-primary">send</button></div>
+		<div class="col s8"><input placeholder="enter message here..." /></div>
+		<div class="col s4"><button>send</button></div>
 	</div>
+</template>
+
+<template name="projects">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Tasks</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#each projects}}
+			<tr>
+				<td>{{name}}</td>
+				<td>{{count}}</td>
+			</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="pages">
+
+	<ul class="pagination">
+	{{#each pages}}
+		<li class="waves-effect"><a href="#!">{{page}}</a></li>
+	{{/each}}
+	</ul>
+
 </template>
